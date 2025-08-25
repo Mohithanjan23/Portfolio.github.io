@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohithanjan - Developer & Creative Leader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background-color: #111827;
+            --card-color: rgba(31, 41, 55, 0.5);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --primary-accent: #39FF14; /* Neon Green */
+            --secondary-accent: #05E9E7; /* Teal Green */
+            --text-primary: #F9FAFB;
+            --text-secondary: #D1D5DB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            cursor: none; /* Hide the default cursor */
+        }
+
+        .glass-card {
+            background: var(--card-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary-accent);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+            color: #111827;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--background-color); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-accent); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--secondary-accent); }
+        
+        .skill-card:hover svg { transform: scale(1.1); }
+        .skill-card svg { transition: transform 0.3s ease; }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-accent);
+        }
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary-accent);
+            transition-duration: 0.1s;
+        }
+        body:hover .cursor-dot, body:hover .cursor-outline {
+            opacity: 1;
+        }
+        .cursor-outline.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(57, 255, 20, 0.2);
+        }
+        
+        /* Orbiting Image Effect */
+        .orbit-container {
+            position: relative;
+            width: 256px; /* md:w-96 -> 384px */
+            height: 256px; /* md:h-96 -> 384px */
+        }
+        @media (min-width: 768px) {
+            .orbit-container {
+                width: 384px;
+                height: 384px;
+            }
+        }
+        .orbit-container .orbiting-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-accent);
+            animation: orbit 10s linear infinite;
+        }
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(calc(128px + 20px)) rotate(0deg); } /* Half of container width + offset */
+            to   { transform: rotate(360deg) translateX(calc(128px + 20px)) rotate(-360deg); }
+        }
+        @media (min-width: 768px) {
+             @keyframes orbit {
+                from { transform: rotate(0deg) translateX(calc(192px + 20px)) rotate(0deg); } /* Half of md container width + offset */
+                to   { transform: rotate(360deg) translateX(calc(192px + 20px)) rotate(-360deg); }
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-card mx-4 my-4">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-tighter">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            </div>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="#works" class="hover:text-green-400 transition-colors">Projects</a>
+                <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
+                <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
+                <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
+                <a href="#contact" class="btn-primary font-semibold px-5 py-2 rounded-lg">Contact</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-2xl">☰</button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col space-y-4">
+             <a href="#works" class="hover:text-green-400 transition-colors">Projects</a>
+             <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
+             <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
+             <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
+             <a href="#contact" class="btn-primary font-semibold px-5 py-2 rounded-lg text-center">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 pt-32">
+
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-[80vh] flex flex-col md:flex-row items-center justify-center text-center md:text-left">
+            <div class="md:w-1/2 mb-10 md:mb-0">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-300 mb-2 animate-on-load-down">Hey, I'm Mohithanjan</h1>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-4 animate-on-load-down" style="animation-delay: 0.1s;">A Versatile Developer & Creative Designer</h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto md:mx-0 animate-on-load-up">I approach development with a strategic, user-centric mindset, turning complex technical challenges into engaging, market-ready solutions.</p>
+                <a href="#contact" class="btn-primary font-bold py-3 px-8 rounded-full inline-block text-lg">
+                    Get In Touch
+                </a>
+            </div>
+            <div class="md:w-1/2 flex justify-center items-center">
+                <div class="orbit-container flex justify-center items-center">
+                     <img src="https://media.licdn.com/dms/image/v2/D5603AQE4lpUkomc-Ig/profile-displayphoto-scale_400_400/B56ZiYTi2AHkAg-/0/1754901919102?e=2147483647&v=beta&t=J5vPVtZPaXRiBRDtVcb8XAjRqmlHTS5_wh1mcBJGMfs" alt="Mohithanjan's Portrait" class="rounded-full w-full h-full object-cover border-4 border-green-500 shadow-2xl shadow-green-500/20">
+                     <div class="orbiting-dot"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="works" class="py-20">
+            <h3 class="text-4xl font-bold text-center mb-2 scroll-animate">Projects</h3>
+            <p class="text-center text-gray-400 mb-12 scroll-animate">Take a glimpse into my work.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card overflow-hidden group scroll-animate">
+                    <img src="https://placehold.co/600x400/1a202c/718096?text=LeakPeek" alt="LeakPeek Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">LeakPeek - Data Breach Detection</h4>
+                        <p class="text-gray-300 mb-4">A mobile-first system to detect and alert users about data breaches from the dark web using Python, Flutter, and Tor integration.</p>
+                        <a href="https://github.com/pes1ug23ca017-ai/leakpeek" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
+                    </div>
+                </div>
+                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.2s;">
+                    <img src="https://placehold.co/600x400/2d3748/a0aec0?text=CALPLATE" alt="CALPLATE Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">CALPLATE - Nutrition Tracker</h4>
+                        <p class="text-gray-300 mb-4">A full-stack nutrition tracking application designed to bridge the gap between engineering and user-centric design.</p>
+                        <a href="https://github.com/Mohithanjan23/calplate" target="_blank" rel="noopener noreferrer" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
+                    </div>
+                </div>
+                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.4s;">
+                    <img src="https://placehold.co/600x400/4a5568/e2e8f0?text=Portfolio" alt="Portfolio" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Portfolio</h4>
+                        <p class="text-gray-300 mb-4">An professional website built with HTML for user-engaging and building connections.</p>
+                        <a href="#" class="font-semibold text-green-400 hover:underline">work in progress</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skills Section -->
+        <section id="skills" class="py-20">
+            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Skills & Abilities</h3>
+            <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-7xl mx-auto">
+                <!-- Row 1 -->
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg><p class="font-semibold text-sm">Marketing</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg><p class="font-semibold text-sm">Front-End</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg><p class="font-semibold text-sm">Creative Dir.</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg><p class="font-semibold text-sm">Security</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m16-10v10M4 11h16M4 14h16M10 4v16m4-16v16"></path></svg><p class="font-semibold text-sm">SQL & Data</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg><p class="font-semibold text-sm">UI/UX Design</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg><p class="font-semibold text-sm">Flutter</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg><p class="font-semibold text-sm">Event Mgmt</p></div>
+                <!-- Row 2 -->
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a5 5 0 0 0 0 10 5 5 0 0 0 0-10"></path><path d="M2 12h20"></path></svg><p class="font-semibold text-sm">React</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg><p class="font-semibold text-sm">GitHub</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.88 14.32l-3.3-3.3 1.41-1.41 1.89 1.89 4.24-4.24 1.41 1.41-5.65 5.65z"></path></svg><p class="font-semibold text-sm">Node.js</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4,16.6L4.8,12l4.6-4.6L8,6l-6,6l6,6L9.4,16.6z M14.6,17.4l1.4,1.4l6-6l-6-6L14.6,8.2L19.2,12L14.6,17.4z"></path></svg><p class="font-semibold text-sm">Firebase</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-lime-500" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z"></path></svg><p class="font-semibold text-sm">Android</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8l4-5 1 4h3l-4 5z"></path></svg><p class="font-semibold text-sm">Python</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-indigo-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">PHP</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.08 13.52c-.3.3-.77.3-1.07 0l-2.5-2.5-2.5 2.5c-.3.3-.77.3-1.07 0s-.3-.77 0-1.07l2.5-2.5-2.5-2.5c-.3-.3-.3-.77 0-1.07s.77-.3 1.07 0l2.5 2.5 2.5-2.5c.3-.3.77-.3 1.07 0s.3.77 0 1.07l-2.5 2.5 2.5 2.5c.3.3.3.77 0 1.07z"></path></svg><p class="font-semibold text-sm">AWS</p></div>
+                <!-- Row 3 -->
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V8h2v4zm4-2h-2V8h2v4zm0 4h-2v2h2v-2z"></path></svg><p class="font-semibold text-sm">MongoDB</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">WordPress</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">C++</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">Java</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M1.2 0h21.6L21 21.6l-9 2.4-9-2.4L1.2 0zm18.3 4.5H6.9l.3 3.3h11.7l-.9 9.3-5.1 1.4-5.1-1.4-.3-3.9h3.3l.2 1.8 1.9.5 1.9-.5.2-2.3H6.3l-.9-9.6h14.1z"></path></svg><p class="font-semibold text-sm">HTML5</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M3.3 0h17.4l-1.6 18L12 24l-7.1-6L3.3 0zM17.4 5.4H6.6l.3 3.6h10.2l-.8 8.2-4.7 1.3-4.7-1.3-.3-3.5h3.2l.2 1.6 1.6.4 1.6-.4.2-2.1H6.3l-.8-9.2h12.2l-.3 1.3z"></path></svg><p class="font-semibold text-sm">CSS3</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm21.5 21.5h-19v-19h19v19zM11 10.5H8v3h3v-3zm4 0h-3v3h3v-3zm-2-4c-2.2 0-4 1.8-4 4v3h8v-3c0-2.2-1.8-4-4-4z"></path></svg><p class="font-semibold text-sm">JavaScript</p></div>
+                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><p class="font-semibold text-sm">Filmmaking</p></div>
+            </div>
+        </section>
+
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20">
+            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Experience</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <div class="scroll-animate">
+                    <h4 class="text-2xl font-bold mb-6 text-center lg:text-left">Work Experience</h4>
+                    <div class="relative border-l-2 border-green-500 pl-8">
+                        <a href="https://craispes.wordpress.com/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-green-500 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">June 2025 - July 2025</p>
+                            <h5 class="text-xl font-bold">Summer Intern</h5>
+                            <p class="text-gray-300">PES CRAIS</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-animate">
+                    <h4 class="text-2xl font-bold mb-6 text-center lg:text-left">Leadership & Volunteering</h4>
+                     <div class="relative border-l-2 border-teal-400 pl-8">
+                        <a href="https://www.instagram.com/kalaangana.pesu.ca/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">OCT 2025 - PRESENT</p>
+                            <h5 class="text-xl font-bold">Head of Anchoring</h5>
+                            <h6 class="text-gray font-bold">Founder</h6>
+                            <p class="text-gray-300">kalaangana</p>
+                        </a>
+                        <a href="https://goniyo.com/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">FEB 2025 - JULY 2025</p>
+                            <h5 class="text-xl font-bold">Campus Ambassador</h5>
+                            <p class="text-gray-300">NIYO SOLUTIONS INC</p>
+                        </a>
+                        <a href="https://www.linkedin.com/company/init-pes-ca/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">FEB 2024 - JUNE 2025</p>
+                            <h5 class="text-xl font-bold">Head of Marketing</h5>
+                            <h6 class="text-gray font-bold">Founder, Ex Head of Outreach</h6>
+                            <p class="text-gray-300">init.pesu.ca</p>
+                        </a>
+                        <a href="https://www.linkedin.com/company/pesu-talkies/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">JAN 2024 - MAY 2025</p>
+                            <h5 class="text-xl font-bold">Director</h5>
+                            <h6 class="text-gray font-bold">Ex Head of Marketing</h6>
+                            <p class="text-gray-300">PESU Talkies</p>
+                        </a>
+                        <a href="https://www.linkedin.com/company/irapesu/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">NOV 2024 - JAN 2025</p>
+                            <h5 class="text-xl font-bold">Head of Design</h5>
+                            <p class="text-gray-300">IRA PESU</p>
+                        </a>
+                        <a href="https://www.linkedin.com/company/kannada-koota-pesu/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">OCT 2023 - FEB 2024</p>
+                            <h5 class="text-xl font-bold">PR & Marketing</h5>
+                            <p class="text-gray-300">Kannada Koota</p>
+                        </a>
+                        <a href="https://www.linkedin.com/company/samarpana-india/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
+                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
+                            <p class="text-sm text-gray-400">OCT 2023 - DEC 2023</p>
+                            <h5 class="text-xl font-bold">Campaigning</h5>
+                            <p class="text-gray-300">Samarpana India</p>
+                        </a>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="py-20">
+            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Certifications</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- To add links, replace the href="#" with your credential URL -->
+                <a href="#" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">UX Design Basics</h4><p class="text-sm text-gray-400 mt-auto">LearnTube.ai</p></div></a>
+                <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/responsive-web-design" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Responsive Web Design</h4><p class="text-sm text-gray-400 mt-auto">freeCodeCamp</p></div></a>
+                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/pmnMSL4QiQ9JCgE3W/kkE9HyeNcw6rwCRGw_pmnMSL4QiQ9JCgE3W_3JfEjkPn7Nyf48wDu_1734370369308_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">AWS APAC: Solutions Architect</h4><p class="text-sm text-gray-400 mt-auto">AWS via Forage</p></div></a>
+                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/ifobHAoMjQs9s6bKS/gmf3ypEXBj2wvfQWC_ifobHAoMjQs9s6bKS_3JfEjkPn7Nyf48wDu_1745859060267_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Cybersecurity Analyst</h4><p class="text-sm text-gray-400 mt-auto">Tata Group via Forage</p></div></a>
+                <a href="https://www.credly.com/earner/earned/badge/c8a96cc5-8803-4767-991f-e78ba157426b" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">McKinsey.org Forward Program</h4><p class="text-sm text-gray-400 mt-auto">McKinsey.org via Credly</p></div></a>
+                <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/foundational-c-sharp-with-microsoft" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">C# Foundations with Microsoft</h4><p class="text-sm text-gray-400 mt-auto">freeCodeCamp</p></div></a>
+                <a href="https://coursera.org/share/28a5c0b98dd46479e38191f7564954e3" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Linux & SQL for Data Engineers</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
+                <a href="https://www.coursera.org/account/accomplishments/verify/TVR0TXR162V7?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Foundations of Cybersecurity</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
+                <a href="https://www.coursera.org/account/accomplishments/verify/7IDQMZZI1MW4?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Network & Risk Security</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
+                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/xhih9yFWsf6AYfngd/HNpZwZcuYwona2d8Y_xhih9yFWsf6AYfngd_3JfEjkPn7Nyf48wDu_1750407870305_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Software Engineering Sim.</h4><p class="text-sm text-gray-400 mt-auto">Accenture Nordics</p></div></a>
+                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/32A6DqtsbF7LbKdcq/NkaC7knWtjSbi6aYv_32A6DqtsbF7LbKdcq_3JfEjkPn7Nyf48wDu_1749622713345_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Data Analytics Simulation</h4><p class="text-sm text-gray-400 mt-auto">Quantium via Forage</p></div></a>
+                <a href="https://www.coursera.org/account/accomplishments/verify/QT6APKF8BT3E?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Manage Security Risks</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-900/50 mt-20 py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-3xl font-bold mb-4">Let's build something amazing.</h3>
+            <p class="text-gray-400 mb-8">Get in touch with me for collaborations or just to say hi!</p>
+            <a href="mailto:mohithanjan23@gmail.com" class="btn-primary font-bold py-3 px-8 rounded-full inline-block text-lg">
+                mohithanjan23@gmail.com
+            </a>
+            <div class="flex justify-center space-x-6 mt-8">
+                <a href="https://www.linkedin.com/in/mohithanjan/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg></a>
+                <a href="https://github.com/Mohithanjan23" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a>
+                <a href="https://www.instagram.com/mohithanjan/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg></a>
+            </div>
+            <div class="mt-10 text-gray-500">
+                <p>Designed & Developed by Mohithanjan</p>
+                <p class="text-xs text-gray-600 mt-2">&copy; 2025 Mohithanjan. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Custom Cursor Logic
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: 'forwards' });
+        });
+
+        const interactiveElements = document.querySelectorAll('a, button, .skill-card');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseover', () => cursorOutline.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        });
+
+        // Scroll Animation Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add animation styles dynamically
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .animate-on-load-down { animation: slide-in-down 0.8s ease-out forwards; }
+            .animate-on-load-up { animation: slide-in-up 0.8s ease-out 0.2s forwards; }
+            
+            .scroll-animate {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .scroll-animate.in-view {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            @keyframes slide-in-down {
+                0% { opacity: 0; transform: translateY(-30px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes slide-in-up {
+                0% { opacity: 0; transform: translateY(30px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
