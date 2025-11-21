@@ -112,15 +112,22 @@
             border-radius: 50%;
             box-shadow: 0 0 10px var(--primary-accent);
             animation: orbit 10s linear infinite;
+            /* Center the dot initially so the transform works from center */
+            top: 50%;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -10px;
         }
+        
+        /* Animation Keyframes - Corrected for radius */
         @keyframes orbit {
-            from { transform: rotate(0deg) translateX(calc(128px + 20px)) rotate(0deg); } /* Half of container width + offset */
-            to   { transform: rotate(360deg) translateX(calc(128px + 20px)) rotate(-360deg); }
+            from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
+            to   { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
         }
         @media (min-width: 768px) {
              @keyframes orbit {
-                from { transform: rotate(0deg) translateX(calc(192px + 20px)) rotate(0deg); } /* Half of md container width + offset */
-                to   { transform: rotate(360deg) translateX(calc(192px + 20px)) rotate(-360deg); }
+                from { transform: rotate(0deg) translateX(210px) rotate(0deg); }
+                to   { transform: rotate(360deg) translateX(210px) rotate(-360deg); }
             }
         }
     </style>
@@ -167,9 +174,12 @@
                 </a>
             </div>
             <div class="md:w-1/2 flex justify-center items-center">
-                <div class="orbit-container flex justify-center items-center">
-                     <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1765411200&v=beta&t=y82uSIoTjFZWXQMMfaiUKEzak0zw7YOho_Cw_Ozvc3A">
-                     <div class="orbiting-dot"></div>
+                <div class="orbit-container flex justify-center items-center relative">
+                     <!-- Added classes for circular image -->
+                     <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1765411200&v=beta&t=y82uSIoTjFZWXQMMfaiUKEzak0zw7YOho_Cw_Ozvc3A" 
+                          alt="Mohithanjan" 
+                          class="rounded-full w-full h-full object-cover shadow-2xl border-4 border-gray-800 relative z-10">
+                     <div class="orbiting-dot z-0"></div>
                 </div>
             </div>
         </section>
@@ -259,7 +269,7 @@
                 </div>
                 <div class="scroll-animate">
                     <h4 class="text-2xl font-bold mb-6 text-center lg:text-left">Leadership & Volunteering</h4>
-                     <div class="relative border-l-2 border-teal-400 pl-8">
+                      <div class="relative border-l-2 border-teal-400 pl-8">
                         <a href="https://www.instagram.com/kalaangana.pesu.ca/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
                             <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
                             <p class="text-sm text-gray-400">OCT 2025 - PRESENT</p>
@@ -305,7 +315,7 @@
                             <h5 class="text-xl font-bold">Campaigning</h5>
                             <p class="text-gray-300">Samarpana India</p>
                         </a>
-                     </div>
+                      </div>
                 </div>
             </div>
         </section>
@@ -422,5 +432,3 @@
     </script>
 </body>
 </html>
-
-
