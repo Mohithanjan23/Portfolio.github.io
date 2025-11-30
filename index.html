@@ -130,6 +130,15 @@
                 to   { transform: rotate(360deg) translateX(210px) rotate(-360deg); }
             }
         }
+        @media (max-width: 768px) {
+            body {
+                cursor: auto; /* Restore default touch interaction */
+            }
+            .cursor-dot, 
+            .cursor-outline {
+                display: none !important; /* Hide custom elements */
+            }
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -145,7 +154,7 @@
             </div>
             
             <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#works" class="hover:text-green-400 transition-colors">Projects</a>
+                <a href="#Project" class="hover:text-green-400 transition-colors">Projects</a>
                 <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
                 <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
                 <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
@@ -162,7 +171,7 @@
         </div>
         
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col space-y-4">
-             <a href="#works" class="hover:text-green-400 transition-colors">Projects</a>
+             <a href="#Project" class="hover:text-green-400 transition-colors">Projects</a>
              <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
              <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
              <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
@@ -190,7 +199,6 @@
             </div>
             <div class="md:w-1/2 flex justify-center items-center">
                 <div class="orbit-container flex justify-center items-center relative">
-                     <!-- Forcefully applied rounded-full and inline style for circular image -->
                      <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1765411200&v=beta&t=y82uSIoTjFZWXQMMfaiUKEzak0zw7YOho_Cw_Ozvc3A" 
                           alt="Mohithanjan" 
                           style="border-radius: 50%;"
@@ -364,7 +372,6 @@
         <section id="certifications" class="py-20">
             <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Certifications</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- To add links, replace the href="#" with your credential URL -->
                 <a href="#" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">UX Design Basics</h4><p class="text-sm text-gray-400 mt-auto">LearnTube.ai</p></div></a>
                 <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/responsive-web-design" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Responsive Web Design</h4><p class="text-sm text-gray-400 mt-auto">freeCodeCamp</p></div></a>
                 <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/pmnMSL4QiQ9JCgE3W/kkE9HyeNcw6rwCRGw_pmnMSL4QiQ9JCgE3W_3JfEjkPn7Nyf48wDu_1734370369308_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">AWS APAC: Solutions Architect</h4><p class="text-sm text-gray-400 mt-auto">AWS via Forage</p></div></a>
@@ -438,6 +445,7 @@
     transform: translateY(-2px);
     box-shadow: 0 0 20px #00ff88aa;
 }
+    </style>
 </style>
 
     <script>
@@ -510,3 +518,4 @@
     </script>
 </body>
 </html>
+
