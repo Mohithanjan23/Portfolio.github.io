@@ -3,520 +3,786 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohith H - Developer & Creative Leader</title>
+    <title>Mohithanjan | Creative Developer</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP for High-End Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Three.js for Neural Network Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Fonts: Space Grotesk (Tech) & Outfit (Futuristic Headers) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --background-color: #111827;
-            --card-color: rgba(31, 41, 55, 0.5);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --primary-accent: #39FF14; /* Neon Green */
-            --secondary-accent: #05E9E7; /* Teal Green */
-            --text-primary: #F9FAFB;
-            --text-secondary: #D1D5DB;
+            --bg-dark: #030305;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.1); 
+            
+            --accent-primary: #3b82f6;
+            --accent-secondary: #10b981; 
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-primary);
-            cursor: none; /* Hide the default cursor */
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
         }
 
-        .glass-card {
-            background: var(--card-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 1rem;
-            transition: all 0.3s ease;
+        h1, h2, h3, .heading-font {
+            font-family: 'Outfit', sans-serif;
         }
 
-        .glass-card:hover {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+        /* --- THREE.JS LAYER --- */
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* --- STATIC NAV BAR --- */
+        .static-nav {
+            background: rgba(3, 3, 5, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            /* Strict positioning */
+            position: fixed;
+            top: 1.5rem; /* top-6 */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 50;
+            width: 95%;
+            max-width: 64rem; /* max-w-5xl */
+            border-radius: 9999px;
+        }
+
+        /* --- SPOTLIGHT CARD SYSTEM --- */
+        .spotlight-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); 
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            display: block; 
+        }
+        
+        .spotlight-card:hover {
+            border-color: var(--theme-color, rgba(59, 130, 246, 0.6));
+            box-shadow: 0 0 30px var(--theme-color-glow, rgba(59, 130, 246, 0.2));
             transform: translateY(-5px);
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
-            color: #111827;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(57, 255, 20, 0.6);
-        }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--background-color); }
-        ::-webkit-scrollbar-thumb { background: var(--primary-accent); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--secondary-accent); }
-        
-        .skill-card:hover svg { transform: scale(1.1); }
-        .skill-card svg { transition: transform 0.3s ease; }
-
-        /* Custom Cursor */
-        .cursor-dot, .cursor-outline {
-            pointer-events: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                var(--theme-color-glow, rgba(59, 130, 246, 0.15)),
+                transparent 40%
+            );
+            z-index: 1;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out, transform 0.2s ease-in-out;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
         }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--primary-accent);
+
+        .spotlight-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                var(--theme-color, rgba(59, 130, 246, 0.5)),
+                transparent 40%
+            );
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
         }
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 2px solid var(--primary-accent);
-            transition-duration: 0.1s;
-        }
-        body:hover .cursor-dot, body:hover .cursor-outline {
+
+        .spotlight-card:hover::before,
+        .spotlight-card:hover::after {
             opacity: 1;
         }
-        .cursor-outline.hover {
-            transform: translate(-50%, -50%) scale(1.5);
-            background-color: rgba(57, 255, 20, 0.2);
+        
+        .spotlight-content {
+            position: relative;
+            z-index: 2;
+            background-color: var(--bg-dark);
+            border-radius: 15px;
+            margin: 1px;
+            height: calc(100% - 2px);
         }
         
-        /* Orbiting Image Effect */
+        .spotlight-card.glass .spotlight-content {
+            background-color: rgba(3, 3, 5, 0.85);
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- BUTTON BORDER EFFECT --- */
+        .btn-border-glow {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-border-glow:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-contact-ref, .btn-primary {
+            background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 100%); 
+            color: #ffffff; 
+            padding: 10px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); 
+        }
+        .btn-border-ref {
+            border: 1px solid #d6d6d6;
+            color: #c3c3c3;         
+            background: transparent;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 0 rgba(51, 58, 70, 0); 
+        }
+
+        /* --- TYPOGRAPHY EFFECTS --- */
+        .text-reveal-mask { overflow: hidden; display: inline-block; vertical-align: bottom; }
+        .text-reveal-line { display: inline-block; transform: translateY(100%); }
+        .hero-title { line-height: 0.9; letter-spacing: -0.04em; }
+
+        /* Standout Gradient Text Class */
+        .text-gradient-standout {
+            background: linear-gradient(90deg, #60a5fa, #34d399);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* --- SCROLL TIMELINE --- */
+        .timeline-container { position: relative; }
+        .timeline-track {
+            position: absolute; left: 20px; top: 0; bottom: 0; width: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .timeline-progress {
+            position: absolute; left: 20px; top: 0; width: 2px; height: 0%;
+            background: linear-gradient(to bottom, #3b82f6, #10b981);
+            box-shadow: 0 0 15px #3b82f6;
+        }
+
+        /* --- UTILITIES --- */
+        .grain-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        ::selection { background: var(--accent-secondary); color: black; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+        /* --- ORBIT ANIMATION --- */
         .orbit-container {
             position: relative;
-            width: 256px; /* md:w-96 -> 384px */
-            height: 256px; /* md:h-96 -> 384px */
+            width: 240px;
+            height: 240px;
         }
         @media (min-width: 768px) {
             .orbit-container {
-                width: 384px;
-                height: 384px;
+                width: 320px;
+                height: 320px;
             }
         }
-        .orbit-container .orbiting-dot {
+        @media (min-width: 1024px) {
+             .orbit-container {
+                width: 380px; 
+                height: 380px;
+            }
+        }
+
+        .orbiting-dot {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--primary-accent);
+            width: 16px;
+            height: 16px;
+            background-color: var(--accent-secondary);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary-accent);
-            animation: orbit 10s linear infinite;
-            /* Center the dot initially so the transform works from center */
+            box-shadow: 0 0 15px var(--accent-secondary);
+            animation: orbit 8s linear infinite;
             top: 50%;
             left: 50%;
-            margin-top: -10px;
-            margin-left: -10px;
+            margin-top: -8px;
+            margin-left: -8px;
+            z-index: 0;
+        }
+
+        /* Responsive Orbit Keyframes to prevent off-screen overflow */
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+            to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
         }
         
-        /* Animation Keyframes - Corrected for radius */
-        @keyframes orbit {
-            from { transform: rotate(0deg) translateX(140px) rotate(0deg); }
-            to   { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
-        }
         @media (min-width: 768px) {
-             @keyframes orbit {
+            @keyframes orbit {
+                from { transform: rotate(0deg) translateX(170px) rotate(0deg); }
+                to   { transform: rotate(360deg) translateX(170px) rotate(-360deg); }
+            }
+        }
+        @media (min-width: 1024px) {
+            @keyframes orbit {
                 from { transform: rotate(0deg) translateX(210px) rotate(0deg); }
                 to   { transform: rotate(360deg) translateX(210px) rotate(-360deg); }
-            }
-        }
-        @media (max-width: 768px) {
-            body {
-                cursor: auto; /* Restore default touch interaction */
-            }
-            .cursor-dot, 
-            .cursor-outline {
-                display: none !important; /* Hide custom elements */
             }
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 glass-card mx-4 my-4">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-tighter">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+    <div class="grain-overlay"></div>
+    <div id="canvas-container"></div>
+    
+    <!-- Static Header -->
+    <nav class="static-nav px-6 py-4 flex justify-between items-center glass-card" id="navbar">
+        <a href="#" class="flex items-center gap-3 group">
+            <div class="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-full bg-white text-black font-bold text-sm tracking-tighter">
+                <span class="group-hover:-translate-y-8 transition-transform duration-300 block">M</span>
+                <span class="absolute top-8 group-hover:top-1.5 text-blue-700 duration-300 block">H</span>
             </div>
-            
-            <nav class="hidden md:flex space-x-6 items-center">
-                <a href="#Project" class="hover:text-green-400 transition-colors">Projects</a>
-                <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
-                <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
-                <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
-                
-                <a href="Mohith_H_Resume.pdf" download="Mohith_H_Resume.pdf" class="border border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 transition-all px-4 py-2 rounded-lg flex items-center gap-2 font-semibold">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    CV
-                </a>
+            <span class="font-bold text-lg tracking-wide hidden sm:block opacity-80 group-hover:opacity-100 transition-opacity">MOHITH</span>
+        </a>
 
-                <a href="#contact" class="btn-primary font-semibold px-5 py-2 rounded-lg">Contact</a>
-            </nav>
-            
-            <button id="mobile-menu-button" class="md:hidden text-2xl">☰</button>
-        </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col space-y-4">
-             <a href="#Project" class="hover:text-green-400 transition-colors">Projects</a>
-             <a href="#skills" class="hover:text-green-400 transition-colors">Skills</a>
-             <a href="#experience" class="hover:text-green-400 transition-colors">Experience</a>
-             <a href="#certifications" class="hover:text-green-400 transition-colors">Certifications</a>
-             
-             <a href="Mohith_H_Resume.pdf" download="Mohith_H_Resume.pdf" class="border border-green-400 text-green-400 hover:bg-green-400 hover:text-gray-900 transition-all px-4 py-2 rounded-lg flex items-center justify-center gap-2 font-semibold">
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center gap-6 text-lg font-semibold tracking-widest uppercase text-gray-400 glass-card">
+            <a href="#projects" class="hover:text-blue-300 transition-colors">Projects</a>
+            <a href="#experience" class="hover:text-blue-300 transition-colors">Experience</a>
+            <a href="#skills" class="hover:text-blue-300 transition-colors">Skills</a>
+            <a href="#certifications" class="hover:text-blue-300 transition-colors">Certifications</a>
+            <a href="Mohith_H_Resume.pdf" download class="btn-border-glow border-blue-400 hover:text-blue-400 transition-colors px-3 py-1 rounded-full  flex items-center gap-3 font-semibold">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                 Resume
             </a>
-
-             <a href="#contact" class="btn-primary font-semibold px-5 py-2 rounded-lg text-center">Contact</a>
         </div>
-    </header>
 
-    <main class="container mx-auto px-6 pt-32">
-
-        <!-- Hero Section -->
-        <section id="hero" class="min-h-[80vh] flex flex-col md:flex-row items-center justify-center text-center md:text-left">
-            <div class="md:w-1/2 mb-10 md:mb-0">
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-300 mb-2 animate-on-load-down">Hey, I'm Mohith</h1>
-                <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-tight mb-4 animate-on-load-down" style="animation-delay: 0.1s;">A Versatile Developer & Creative Designer</h2>
-                <p class="text-lg text-gray-300 mb-8 max-w-xl mx-auto md:mx-0 animate-on-load-up">I approach development with a strategic, user-centric mindset, turning complex technical challenges into engaging, market-ready solutions.</p>
-                <a href="#contact" class="btn-primary font-bold py-3 px-8 rounded-full inline-block text-lg">
-                    Get In Touch
-                </a>
-            </div>
-            <div class="md:w-1/2 flex justify-center items-center">
-                <div class="orbit-container flex justify-center items-center relative">
-                     <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1765411200&v=beta&t=y82uSIoTjFZWXQMMfaiUKEzak0zw7YOho_Cw_Ozvc3A" 
-                          alt="Mohithanjan" 
-                          style="border-radius: 50%;"
-                          class="w-full h-full object-cover rounded-full shadow-2xl border-4 border-gray-800 relative z-10 block">
-                     <div class="orbiting-dot z-0"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="Project" class="py-20">
-            <h3 class="text-4xl font-bold text-center mb-2 scroll-animate">Projects</h3>
-            <p class="text-center text-gray-400 mb-12 scroll-animate">Take a glimpse into my work.</p>
+        <!-- Contact & Mobile Toggle -->
+        <div class="flex items-center gap-6 text-lg tracking-widest">
+            <a href="#contact" class="hidden md:flex btn-contact-ref btn-border-glow font-semibold hover:text-black-400 transition-colors px-6 py-2 rounded-full items-center gap-3 font-semibold">
+                CONTACT 
+            </a>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="glass-card overflow-hidden group scroll-animate">
-                    <img src="https://placehold.co/600x400/1a202c/718096?text=LEAKPEEK" alt="LEAKPEEK Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">LEAKPEEK - Data Breach Detection</h4>
-                        <p class="text-gray-300 mb-4">A mobile-first system to detect and alert users about data breaches from the dark web using Python, Flutter, and Tor integration.</p>
-                        <a href="https://github.com/pes1ug23ca017-ai/leakpeek" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
-                    </div>
-                </div>
-                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.2s;">
-                    <img src="https://placehold.co/600x400/2d3748/a0aec0?text=CALPLATE" alt="CALPLATE Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">CALPLATE - Nutrition Tracker</h4>
-                        <p class="text-gray-300 mb-4">A full-stack nutrition tracking application designed to bridge the gap between engineering and user-centric design.</p>
-                        <a href="https://github.com/Mohithanjan23/calplate" target="_blank" rel="noopener noreferrer" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
-                    </div>
-                </div>
-                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.4s;">
-                    <img src="https://placehold.co/600x400/4a5568/e2e8f0?text=SMILE HARD" alt="SMILE HARD" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">Smile Hard - Pixel Quest</h4>
-                        <p class="text-gray-300 mb-4">a fun, retro-themed webcam game that scores you based on the width of your smile! This version features a nostalgic, pixelated UI inspired by classic computer games.</p>
-                        <a href="https://github.com/Mohithanjan23/Smile-Hard" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
-                    </div>
-                </div>
-                <div class="glass-card overflow-hidden group scroll-animate">
-                    <img src="https://placehold.co/600x400/1a202c/718096?text=CRACKBANK" alt="CRACKBANK Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">CRACKBANK – Banking Simulator</h4>
-                        <p class="text-gray-300 mb-4">A simple banking simulator to create accounts, manage balances, and perform basic transactions.</p>
-                        <a href="https://github.com/pes1ug23ca017-ai/leakpeek" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
-                    </div>
-                </div>
-                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.2s;">
-                    <img src="https://placehold.co/600x400/2d3748/a0aec0?text=POKÉDEX" alt="POKÉDEX Project" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">POKÉDEX — Pokémon Explorer</h4>
-                        <p class="text-gray-300 mb-4">A web-based Pokédex for browsing and searching Pokémon with real-time data and a clean interface.</p>
-                        <a href="https://github.com/Mohithanjan23/pokedex.github.io" target="_blank" rel="noopener noreferrer" class="font-semibold text-green-400 hover:underline">View on GitHub →</a>
-                    </div>
-                </div>
-                <div class="glass-card overflow-hidden group scroll-animate" style="animation-delay: 0.4s;">
-                    <img src="https://placehold.co/600x400/4a5568/e2e8f0?text=DESIGN FILES" alt="DESIGN" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
-                    <div class="p-6">
-                        <h4 class="text-2xl font-bold mb-2">Design Projects – Graphic Portfolio</h4>
-                        <p class="text-gray-300 mb-4">A curated collection of posters, branding, illustrations, and creative design work showcasing my visual style.</p>
-                        <a href="https://drive.google.com/drive/folders/1XUXWj9XFbsAQZVvcNpJ2u5hmS9wk3u6e" class="font-semibold text-green-400 hover:underline">View on Drive →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Skills Section -->
-        <section id="skills" class="py-20">
-            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Skills & Abilities</h3>
-            <div class="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8 gap-4 max-w-7xl mx-auto">
-                <!-- Row 1 -->
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg><p class="font-semibold text-sm">Marketing</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg><p class="font-semibold text-sm">Front-End</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg><p class="font-semibold text-sm">Creative Dir.</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg><p class="font-semibold text-sm">Security</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m16-10v10M4 11h16M4 14h16M10 4v16m4-16v16"></path></svg><p class="font-semibold text-sm">SQL & Data</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg><p class="font-semibold text-sm">UI/UX Design</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg><p class="font-semibold text-sm">Flutter</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg><p class="font-semibold text-sm">Event Mgmt</p></div>
-                <!-- Row 2 -->
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a5 5 0 0 0 0 10 5 5 0 0 0 0-10"></path><path d="M2 12h20"></path></svg><p class="font-semibold text-sm">React</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg><p class="font-semibold text-sm">GitHub</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.88 14.32l-3.3-3.3 1.41-1.41 1.89 1.89 4.24-4.24 1.41 1.41-5.65 5.65z"></path></svg><p class="font-semibold text-sm">Node.js</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-500" fill="currentColor" viewBox="0 0 24 24"><path d="M9.4,16.6L4.8,12l4.6-4.6L8,6l-6,6l6,6L9.4,16.6z M14.6,17.4l1.4,1.4l6-6l-6-6L14.6,8.2L19.2,12L14.6,17.4z"></path></svg><p class="font-semibold text-sm">Firebase</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-lime-500" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H8C6.34 1 5 2.34 5 4v16c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V4c0-1.66-1.34-3-3-3zm-2 20h-4v-1h4v1zm3.25-3H6.75V4h10.5v14z"></path></svg><p class="font-semibold text-sm">Android</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8l4-5 1 4h3l-4 5z"></path></svg><p class="font-semibold text-sm">Python</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-indigo-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">PHP</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.08 13.52c-.3.3-.77.3-1.07 0l-2.5-2.5-2.5 2.5c-.3.3-.77.3-1.07 0s-.3-.77 0-1.07l2.5-2.5-2.5-2.5c-.3-.3-.3-.77 0-1.07s.77-.3 1.07 0l2.5 2.5 2.5-2.5c.3-.3.77-.3 1.07 0s.3.77 0 1.07l-2.5 2.5 2.5 2.5c.3.3.3.77 0 1.07z"></path></svg><p class="font-semibold text-sm">AWS</p></div>
-                <!-- Row 3 -->
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V8h2v4zm4-2h-2V8h2v4zm0 4h-2v2h2v-2z"></path></svg><p class="font-semibold text-sm">MongoDB</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">WordPress</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">C++</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"></path></svg><p class="font-semibold text-sm">Java</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-red-500" viewBox="0 0 24 24" fill="currentColor"><path d="M1.2 0h21.6L21 21.6l-9 2.4-9-2.4L1.2 0zm18.3 4.5H6.9l.3 3.3h11.7l-.9 9.3-5.1 1.4-5.1-1.4-.3-3.9h3.3l.2 1.8 1.9.5 1.9-.5.2-2.3H6.3l-.9-9.6h14.1z"></path></svg><p class="font-semibold text-sm">HTML5</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-blue-500" viewBox="0 0 24 24" fill="currentColor"><path d="M3.3 0h17.4l-1.6 18L12 24l-7.1-6L3.3 0zM17.4 5.4H6.6l.3 3.6h10.2l-.8 8.2-4.7 1.3-4.7-1.3-.3-3.5h3.2l.2 1.6 1.6.4 1.6-.4.2-2.1H6.3l-.8-9.2h12.2l-.3 1.3z"></path></svg><p class="font-semibold text-sm">CSS3</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm21.5 21.5h-19v-19h19v19zM11 10.5H8v3h3v-3zm4 0h-3v3h3v-3zm-2-4c-2.2 0-4 1.8-4 4v3h8v-3c0-2.2-1.8-4-4-4z"></path></svg><p class="font-semibold text-sm">JavaScript</p></div>
-                <div class="glass-card skill-card p-4 flex flex-col items-center justify-center text-center scroll-animate"><svg class="w-12 h-12 mb-2 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg><p class="font-semibold text-sm">Filmmaking</p></div>
-            </div>
-        </section>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+    </nav>
 
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-[#030305]/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-300">
+         <button id="mobile-menu-close" class="absolute top-8 right-8 text-white/50 hover:text-white p-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+         </button>
+         
+         <a href="#projects" class="text-4xl font-black text-white hover:text-blue-400 mobile-link tracking-tighter">PROJECTS</a>
+         <a href="#experience" class="text-4xl font-black text-white hover:text-blue-400 mobile-link tracking-tighter">EXPERIENCE</a>
+         <a href="#skills" class="text-4xl font-black text-white hover:text-blue-400 mobile-link tracking-tighter">SKILLS</a>
+         <a href="#certifications" class="text-4xl font-black text-white hover:text-blue-400 mobile-link tracking-tighter">CERTIFICATIONS</a>
+         
+         <div class="flex flex-col gap-4 mt-8 w-64 text-center">
+             <a href="Mohith_H_Resume.pdf" download class="btn-border-glow py-4 rounded-xl font-bold text-white mobile-link">CV</a>
+             <a href="#contact" class="bg-blue-600 text-white py-4 rounded-xl font-bold mobile-link">CONTACT</a>
+         </div>
+    </div>
 
-        <!-- Experience Section -->
-        <section id="experience" class="py-20">
-            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Experience</h3>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <div class="scroll-animate">
-                    <h4 class="text-2xl font-bold mb-6 text-center lg:text-left">Work Experience</h4>
-                    <div class="relative border-l-2 border-green-500 pl-8">
-                        <a href="https://craispes.wordpress.com/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-green-500 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">June 2025 - July 2025</p>
-                            <h5 class="text-xl font-bold">Summer Intern</h5>
-                            <p class="text-gray-300">PES CRAIS</p>
-                        </a>
+    <main class="relative z-10">
+
+        <!-- HERO SECTION -->
+        <section class="min-h-screen flex items-center justify-center pt-32 px-4 md:px-6">
+            <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-8 relative z-10 text-center lg:text-left">
+                    <div class="mb-6 flex items-center justify-center lg:justify-start gap-3 opacity-0 animate-fade-in">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
                     </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tight reveal-text hero-anim">
+                        <div class="text-reveal-mask"><span class="text-reveal-line">Hey, I'm <span class="text-reveal-line text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">Mohith H</span></div>
+                </h1>
+                <h2 class="text-2xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white reveal-text hero-anim delay-100">
+                    A Versatile Developer & <span class="text-gradient serif italic">Creative Designer</span>
+                </h2>
+                <h3 class="text-1xl md:text-1xl font-bold mb-6 text-white reveal-text hero-anim delay-100">
+                    I approach development with a strategic, user-centric mindset, turning complex technical challenges into engaging, market-ready solutions.
+                </h3>
                 </div>
-                <div class="scroll-animate">
-                    <h4 class="text-2xl font-bold mb-6 text-center lg:text-left">Leadership & Volunteering</h4>
-                      <div class="relative border-l-2 border-teal-400 pl-8">
-                        <a href="https://www.instagram.com/kalaangana.pesu.ca/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">OCT 2025 - DEC 2025</p>
-                            <h5 class="text-xl font-bold">Head of Management</h5>
-                            <h6 class="text-gray font-bold">Founder</h6>
-                            <p class="text-gray-300">kalaangana</p>
-                        </a>
-                        <a href="https://goniyo.com/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">FEB 2025 - JULY 2025</p>
-                            <h5 class="text-xl font-bold">Campus Ambassador</h5>
-                            <p class="text-gray-300">NIYO SOLUTIONS INC</p>
-                        </a>
-                        <a href="https://www.linkedin.com/company/init-pes-ca/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">FEB 2024 - JUNE 2025</p>
-                            <h5 class="text-xl font-bold">Head of Marketing</h5>
-                            <h6 class="text-gray font-bold">Founder, Ex Head of Outreach</h6>
-                            <p class="text-gray-300">init.pesu.ca</p>
-                        </a>
-                        <a href="https://www.linkedin.com/company/pesu-talkies/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">JAN 2024 - MAY 2025</p>
-                            <h5 class="text-xl font-bold">Director</h5>
-                            <h6 class="text-gray font-bold">Ex Head of Marketing</h6>
-                            <p class="text-gray-300">PESU Talkies</p>
-                        </a>
-                        <a href="https://www.linkedin.com/company/irapesu/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">NOV 2024 - JAN 2025</p>
-                            <h5 class="text-xl font-bold">Head of Design</h5>
-                            <p class="text-gray-300">IRA PESU</p>
-                        </a>
-                        <a href="https://www.linkedin.com/company/kannada-koota-pesu/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">OCT 2023 - FEB 2024</p>
-                            <h5 class="text-xl font-bold">PR & Marketing</h5>
-                            <p class="text-gray-300">Kannada Koota</p>
-                        </a>
-                        <a href="https://www.linkedin.com/company/samarpana-india/" target="_blank" rel="noopener noreferrer" class="block mb-12 hover:bg-gray-800/50 p-4 rounded-lg transition-colors">
-                            <div class="absolute w-4 h-4 bg-teal-400 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-400">OCT 2023 - DEC 2023</p>
-                            <h5 class="text-xl font-bold">Campaigning</h5>
-                            <p class="text-gray-300">Samarpana India</p>
-                        </a>
-                      </div>
+
+                <!-- Hero Visual -->
+                <div class="lg:col-span-4 relative h-[300px] md:h-[400px] lg:h-[600px] flex items-center justify-center hero-visual">
+                    <div class="orbit-container flex justify-center items-center relative">
+                         <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1765411200&v=beta&t=y82uSIoTjFZWXQMMfaiUKEzak0zw7YOho_Cw_Ozvc3A" 
+                              alt="Mohithanjan" 
+                              style="border-radius: 50%;"
+                              class="w-full h-full object-cover rounded-full shadow-2xl border-4 border-gray-800 relative z-10 block">
+                         <div class="orbiting-dot z-0"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Certifications Section -->
-        <section id="certifications" class="py-20">
-            <h3 class="text-4xl font-bold text-center mb-12 scroll-animate">Certifications</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <a href="#" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">UX Design Basics</h4><p class="text-sm text-gray-400 mt-auto">LearnTube.ai</p></div></a>
-                <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/responsive-web-design" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Responsive Web Design</h4><p class="text-sm text-gray-400 mt-auto">freeCodeCamp</p></div></a>
-                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/pmnMSL4QiQ9JCgE3W/kkE9HyeNcw6rwCRGw_pmnMSL4QiQ9JCgE3W_3JfEjkPn7Nyf48wDu_1734370369308_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">AWS APAC: Solutions Architect</h4><p class="text-sm text-gray-400 mt-auto">AWS via Forage</p></div></a>
-                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/ifobHAoMjQs9s6bKS/gmf3ypEXBj2wvfQWC_ifobHAoMjQs9s6bKS_3JfEjkPn7Nyf48wDu_1745859060267_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Cybersecurity Analyst</h4><p class="text-sm text-gray-400 mt-auto">Tata Group via Forage</p></div></a>
-                <a href="https://www.credly.com/earner/earned/badge/c8a96cc5-8803-4767-991f-e78ba157426b" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">McKinsey.org Forward Program</h4><p class="text-sm text-gray-400 mt-auto">McKinsey.org via Credly</p></div></a>
-                <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/foundational-c-sharp-with-microsoft" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">C# Foundations with Microsoft</h4><p class="text-sm text-gray-400 mt-auto">freeCodeCamp</p></div></a>
-                <a href="https://coursera.org/share/28a5c0b98dd46479e38191f7564954e3" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Linux & SQL for Data Engineers</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
-                <a href="https://www.coursera.org/account/accomplishments/verify/TVR0TXR162V7?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Foundations of Cybersecurity</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
-                <a href="https://www.coursera.org/account/accomplishments/verify/7IDQMZZI1MW4?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Network & Risk Security</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
-                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/xhih9yFWsf6AYfngd/HNpZwZcuYwona2d8Y_xhih9yFWsf6AYfngd_3JfEjkPn7Nyf48wDu_1750407870305_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Software Engineering Sim.</h4><p class="text-sm text-gray-400 mt-auto">Accenture Nordics</p></div></a>
-                <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/32A6DqtsbF7LbKdcq/NkaC7knWtjSbi6aYv_32A6DqtsbF7LbKdcq_3JfEjkPn7Nyf48wDu_1749622713345_completion_certificate.pdf" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Data Analytics Simulation</h4><p class="text-sm text-gray-400 mt-auto">Quantium via Forage</p></div></a>
-                <a href="https://www.coursera.org/account/accomplishments/verify/QT6APKF8BT3E?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course" target="_blank" rel="noopener noreferrer" class="block scroll-animate"><div class="glass-card p-6 h-full flex flex-col"><h4 class="text-xl font-bold mb-3 flex-grow">Manage Security Risks</h4><p class="text-sm text-gray-400 mt-auto">Coursera</p></div></a>
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="py-24 md:py-32 px-6">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6 text-center md:text-left">
+                    <div>
+                        <h2 class="text-center bg-clip-text text-5xl md:text-7xl font-bold mb-4 tracking-tighter">TOP <span class="text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">PROJECTS</span></h2>
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <p class="text-gray-400 max-w-xs text-sm">A curation of high-impact applications focusing on security, utility, and experience.</p>
+                    </div>
+                </div>
+
+                <!-- Responsive Grid: 1 col on mobile, 2 on tablet, 3 on desktop -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-container">
+                    
+                    <!-- LEAKPEEK -->
+                    <a href="https://github.com/pes1ug23ca017-ai/leakpeek" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #a855f7; --theme-color-glow: rgba(168, 85, 247, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=LEAKPEEK" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="LeakPeek">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">Cybersecurity</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">LEAKPEEK</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">Dark web data breach detection system using Python, Flutter & Tor integration.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-purple-400 transition-colors">View Project →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- CALPLATE -->
+                    <a href="https://github.com/Mohithanjan23/calplate" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #22c55e; --theme-color-glow: rgba(34, 197, 94, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=CALPLATE" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Calplate">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-green-500/20 border border-green-500/30 text-green-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">HealthTech</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">CALPLATE</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">Full-stack nutrition tracking with a focus on user-centric design patterns.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-green-400 transition-colors">View Project →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- SMILE HARD -->
+                    <a href="https://github.com/Mohithanjan23/Smile-Hard" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #ef4444; --theme-color-glow: rgba(239, 68, 68, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=SMILE+HARD" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Smile Hard">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-red-500/20 border border-red-500/30 text-red-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">Game Dev</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">SMILE HARD</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">Retro-style webcam game controlled by your facial expressions.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-red-400 transition-colors">Play Game →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- POKEDEX -->
+                    <a href="https://github.com/Mohithanjan23/pokedex.github.io" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #3b82f6; --theme-color-glow: rgba(59, 130, 246, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=POKEDEX" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Pokedex">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">Web App</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">POKÉDEX</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">Real-time data fetching and dynamic UI for Pokémon exploration.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-blue-400 transition-colors">Visit App →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- CRACKBANK -->
+                    <a href="https://github.com/pes1ug23ca017-ai/leakpeek" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #eab308; --theme-color-glow: rgba(234, 179, 8, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=CRACKBANK" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Crackbank">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-yellow-500/20 border border-yellow-500/30 text-yellow-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">FinTech</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">CRACKBANK</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">Banking simulation platform handling transactions and account management.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-yellow-400 transition-colors">View Project →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- DESIGN FILES -->
+                    <a href="https://drive.google.com/drive/folders/1XUXWj9XFbsAQZVvcNpJ2u5hmS9wk3u6e" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #ec4899; --theme-color-glow: rgba(236, 72, 153, 0.4);">
+                        <div class="spotlight-content flex flex-col p-6 h-full relative">
+                            <div class="absolute inset-0 z-0">
+                                <img src="https://placehold.co/600x800/111/333?text=DESIGN" class="w-full h-full object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700" alt="Design">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                            </div>
+                            <div class="relative z-10 mt-auto flex flex-col h-full justify-end">
+                                <div>
+                                    <span class="px-2 py-1 bg-pink-500/20 border border-pink-500/30 text-pink-300 text-[10px] font-bold uppercase tracking-widest rounded mb-3 inline-block">Graphics</span>
+                                    <h3 class="text-3xl font-bold mb-2 text-gradient-standout">DESIGN FILES</h3>
+                                    <p class="text-gray-400 text-sm mb-6 line-clamp-2 group-hover:text-gray-200 transition-colors">A collection of branding, posters, and UI design experiments.</p>
+                                    <span class="inline-flex items-center text-sm font-bold text-white group-hover:text-pink-400 transition-colors">View Drive →</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </section>
+
+        <!-- SEPARATED EXPERIENCE SECTION -->
+        <section id="experience" class="py-24 md:py-32 px-6 bg-[#050507]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter">PROFESSIONAL <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">PATHWAY</span></h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    
+                    <!-- COLUMN 1: WORK EXPERIENCE -->
+                    <div class="timeline-container relative">
+                        <h4 class="text-2xl font-bold text-white mb-10 border-b border-gray-800 pb-4">WORK EXPERIENCE</h4>
+                        <div class="timeline-track"></div>
+                        <div class="timeline-progress" id="progress-line-1"></div>
+                        
+                        <div class="relative pl-16 mb-24 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-blue-500 z-10 shadow-[0_0_10px_#3b82f6]"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-2xl font-bold text-gradient-standout">Summer Intern (AI/ML)</h3>
+                                <span class="font-mono text-blue-400 text-sm mt-1">PES CRAIS • Jun 2025 - Jul 2025</span>
+                            </div>
+                            <p class="text-gray-400">Contributing to cutting-edge AI research and development.</p>
+                        </div>
+                    </div>
+
+                    <!-- COLUMN 2: LEADERSHIP & VOLUNTEERING -->
+                    <div class="timeline-container relative">
+                        <h4 class="text-2xl font-bold text-white mb-10 border-b border-gray-800 pb-4">LEADERSHIP & VOLUNTEERING</h4>
+                        <div class="timeline-track"></div>
+                        <div class="timeline-progress" id="progress-line-2"></div>
+
+                        <!-- Roles List (Same structure as previous) -->
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-purple-500 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Head of Management & Founder</h3>
+                                <span class="font-mono text-purple-400 text-sm mt-1">KALAANGANA • Oct 2024 - Dec 2025</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Founded organization, led cross-functional teams and executed large-scale events.</p>
+                        </div>
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-emerald-500 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Campus Ambassador</h3>
+                                <span class="font-mono text-emerald-400 text-sm mt-1">NIYO SOLUTIONS • Feb 2025 - Jul 2025</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Fostered campus community and brand awareness through strategic initiatives.</p>
+                        </div>
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Head of Marketing</h3>
+                                <span class="font-mono text-gray-400 text-sm mt-1">INIT.PESU.CA • Feb 2024 - Jun 2025</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Spearheaded marketing strategies resulting in increased engagement.</p>
+                        </div>
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Director</h3>
+                                <span class="font-mono text-gray-400 text-sm mt-1">PESU TALKIES • Jan 2024 - May 2025</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Directed club activities and media production workflows.</p>
+                        </div>
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-pink-500 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Head of Design</h3>
+                                <span class="font-mono text-pink-400 text-sm mt-1">IRA PESU • Nov 2024 - Jan 2025</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Led visual design direction and branding.</p>
+                        </div>
+                        <div class="relative pl-16 mb-20 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">PR & Marketing</h3>
+                                <span class="font-mono text-gray-400 text-sm mt-1">KANNADA KOOTA • Oct 2023 - Feb 2024</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Managed public relations and cultural event marketing.</p>
+                        </div>
+                        <div class="relative pl-16 timeline-item">
+                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
+                            <div class="flex flex-col mb-2">
+                                <h3 class="text-xl font-bold text-gradient-standout">Campaigning</h3>
+                                <span class="font-mono text-gray-400 text-sm mt-1">SAMARPANA INDIA • Oct 2023 - Dec 2023</span>
+                            </div>
+                            <p class="text-gray-400 text-sm">Executed grassroots campaigning and outreach.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS & CERTS (Preserved) -->
+        <section id="skills" class="py-24 md:py-32 px-6">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-center text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter"><span class="text-reveal-line text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">SKILLS</span></h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="skills-container">
+                    <!-- Skills Items (Same as previous) -->
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-400">📈</span><span class="font-bold text-xs tracking-widest text-center">MARKETING</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-400">💻</span><span class="font-bold text-xs tracking-widest text-center">FRONT-END</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-purple-400">✨</span><span class="font-bold text-xs tracking-widest text-center">CREATIVE DIR.</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-400">🛡</span><span class="font-bold text-xs tracking-widest text-center">SECURITY</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-teal-400">💾</span><span class="font-bold text-xs tracking-widest text-center">SQL & DATA</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-pink-400">🎨</span><span class="font-bold text-xs tracking-widest text-center">UI/UX</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-cyan-400">📱</span><span class="font-bold text-xs tracking-widest text-center">FLUTTER</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-orange-400">🎉</span><span class="font-bold text-xs tracking-widest text-center">EVENT MGMT</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-500">⚛</span><span class="font-bold text-xs tracking-widest text-center">REACT</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-gray-400">🐙</span><span class="font-bold text-xs tracking-widest text-center">GITHUB</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-600">🟢</span><span class="font-bold text-xs tracking-widest text-center">NODE.JS</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-500">🔥</span><span class="font-bold text-xs tracking-widest text-center">FIREBASE</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-lime-500">🤖</span><span class="font-bold text-xs tracking-widest text-center">ANDROID</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-300">🐍</span><span class="font-bold text-xs tracking-widest text-center">PYTHON</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-indigo-300">🐘</span><span class="font-bold text-xs tracking-widest text-center">PHP</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-orange-500">☁</span><span class="font-bold text-xs tracking-widest text-center">AWS</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-700">🍃</span><span class="font-bold text-xs tracking-widest text-center">MONGODB</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-600">W</span><span class="font-bold text-xs tracking-widest text-center">WORDPRESS</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-700">C++</span><span class="font-bold text-xs tracking-widest text-center">C++</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-red-600">☕</span><span class="font-bold text-xs tracking-widest text-center">JAVA</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-red-500">5</span><span class="font-bold text-xs tracking-widest text-center">HTML5</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-500">3</span><span class="font-bold text-xs tracking-widest text-center">CSS3</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-300">JS</span><span class="font-bold text-xs tracking-widest text-center">JAVASCRIPT</span></div></div>
+                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-purple-300">🎬</span><span class="font-bold text-xs tracking-widest text-center">FILMMAKING</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="py-24 md:py-32 px-6 bg-[#030305]">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl font-bold mb-16 text-center">CERTIFIED <span class="text-gray-600">EXPERTISE</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="cert-container">
+                    <!-- Certs (Same as previous) -->
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #3b82f6;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">UX Design Basics</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">LearnTube.ai</p></div></a>
+                    <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/responsive-web-design" target="_blank" class="spotlight-card h-40 group block" style="--theme-color: #22c55e;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-green-400 transition-colors">Responsive Web Design</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">freeCodeCamp</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #f97316;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">AWS Solutions Architect</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">AWS via Forage</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #3b82f6;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Cybersecurity Analyst</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Tata Group</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #a855f7;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">Forward Program</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">McKinsey.org</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #3b82f6;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">C# Foundations</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">freeCodeCamp</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #eab308;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-yellow-400 transition-colors">Linux & SQL for Data</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Coursera</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #ef4444;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">Cybersecurity Foundations</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Coursera</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #3b82f6;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Network & Risk Security</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Coursera</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #a855f7;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">Software Eng. Sim</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Accenture</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #22c55e;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-green-400 transition-colors">Data Analytics Sim</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Quantium</p></div></a>
+                    <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #ef4444;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">Manage Security Risks</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Coursera</p></div></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer id="contact" class="py-24 md:py-32 px-6 border-t border-white/5 relative overflow-hidden">
+            <div class="absolute inset-0 bg-blue-600/5 blur-[100px] pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto text-center relative z-10">
+                <h2 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter">LET'S <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">CONNECT</span></h2>
+                <a href="mailto:mohithanjan23@gmail.com" class="btn-primary px-8 py-4 rounded-full font-bold inline-block hover-target mb-10 text-lg hover:text-black btn-border-glow">
+                    mohithanjan23@gmail.com
+                </a>
+                
+                <div class="flex justify-center gap-8 mb-16">
+                    <a href="https://www.linkedin.com/in/mohithanjan/" target="_blank" class="btn-border-ref px-4 py-2 rounded-full font-bold inline-block uppercase tracking-widest hover:text-blue-500 transition-colors">LinkedIn</a>
+                    <a href="https://github.com/Mohithanjan23" target="_blank" class="btn-border-ref px-4 py-2 rounded-full rounded-full font-bold uppercase tracking-widest hover:text-green-500 transition-colors">GitHub</a>
+                    <a href="https://www.instagram.com/mohithanjan/" target="_blank" class="btn-border-ref px-4 py-2 rounded-full rounded-full font-bold uppercase tracking-widest hover:text-pink-500 transition-colors">Instagram</a>
+                </div>
+
+                <p class="text-gray-600 text-xs uppercase tracking-widest">
+                    &copy; 2025 Mohithanjan. Built with Passion & Code.
+                </p>
+            </div>
+        </footer>
 
     </main>
-    
-    <!-- Footer -->
-<footer id="contact" class="bg-gray-900/50 mt-20 py-12">
-    <div class="container mx-auto px-6 text-center">
-        <h3 class="text-3xl font-bold mb-4">Let's build something amazing.</h3>
-        <p class="text-gray-400 mb-8">Get in touch with me for collaborations or just to say hi!</p>
-
-        <!-- Email Button -->
-        <a href="mailto:mohithanjan23@gmail.com" 
-           class="btn-primary font-bold py-3 px-8 rounded-full inline-block text-lg">
-            mohithanjan23@gmail.com
-        </a>
-
-        <!-- Social Buttons -->
-        <div class="flex justify-center space-x-4 mt-8">
-            <a href="https://www.linkedin.com/in/mohithanjan/" 
-               target="_blank" 
-               class="social-btn">
-               LinkedIn
-            </a>
-
-            <a href="https://github.com/Mohithanjan23" 
-               target="_blank" 
-               class="social-btn">
-               GitHub
-            </a>
-
-            <a href="https://www.instagram.com/mohithanjan/" 
-               target="_blank" 
-               class="social-btn">
-               Instagram
-            </a>
-        </div>
-
-        <div class="mt-10 text-gray-500">
-            <p>Designed & Developed by Mohithanjan</p>
-            <p class="text-xs text-gray-600 mt-2">&copy; 2025 Mohithanjan. All Rights Reserved.</p>
-        </div>
-    </div>
-</footer>
-
-<style>
-.social-btn {
-    padding: 10px 22px;
-    background: #00ff88;
-    color: #000;
-    font-weight: 600;
-    border-radius: 9999px;
-    text-decoration: none;
-    transition: 0.25s ease-in-out;
-    box-shadow: 0 0 12px #00ff8855;
-}
-
-.social-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0 20px #00ff88aa;
-}
-    </style>
-</style>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Custom Cursor Logic
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
-        window.addEventListener('mousemove', function (e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: 'forwards' });
-        });
-
-        const interactiveElements = document.querySelectorAll('a, button, .skill-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseover', () => cursorOutline.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
-        });
-
-        // Scroll Animation Logic
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                }
+        // 1. SPOTLIGHT EFFECT
+        const initSpotlight = () => {
+            const containers = document.querySelectorAll('#cards-container, #skills-container, #cert-container');
+            containers.forEach(container => {
+                container.addEventListener('mousemove', (e) => {
+                    const cards = container.querySelectorAll('.spotlight-card');
+                    cards.forEach(card => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    });
+                });
             });
-        }, { threshold: 0.1 });
+        };
 
-        document.querySelectorAll('.scroll-animate').forEach(el => {
-            observer.observe(el);
-        });
+        // 2. THREE.JS NEURAL BACKGROUND
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
 
-        // Add animation styles dynamically
-        const style = document.createElement('style');
-        style.innerHTML = `
-            .animate-on-load-down { animation: slide-in-down 0.8s ease-out forwards; }
-            .animate-on-load-up { animation: slide-in-up 0.8s ease-out 0.2s forwards; }
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const particleCount = 100;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const velocities = [];
+
+            for(let i = 0; i < particleCount * 3; i+=3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i+1] = (Math.random() - 0.5) * 100;
+                positions[i+2] = (Math.random() - 0.5) * 50;
+                velocities.push({
+                    x: (Math.random() - 0.5) * 0.05,
+                    y: (Math.random() - 0.5) * 0.05,
+                    z: (Math.random() - 0.5) * 0.05
+                });
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const material = new THREE.PointsMaterial({ size: 0.3, color: 0x3b82f6, transparent: true, opacity: 0.8 });
+            const particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            let mouseX = 0, mouseY = 0, targetX = 0, targetY = 0;
+            document.addEventListener('mousemove', (e) => {
+                targetX = (e.clientX - window.innerWidth / 2) * 0.1;
+                targetY = (e.clientY - window.innerHeight / 2) * 0.1;
+            });
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                mouseX += (targetX - mouseX) * 0.05;
+                mouseY += (targetY - mouseY) * 0.05;
+                particles.rotation.x = mouseY * 0.001;
+                particles.rotation.y = mouseX * 0.001;
+
+                const positions = particles.geometry.attributes.position.array;
+                for(let i = 0; i < particleCount; i++) {
+                    const idx = i * 3;
+                    positions[idx] += velocities[i].x;
+                    positions[idx+1] += velocities[i].y;
+                    positions[idx+2] += velocities[i].z;
+                    if(Math.abs(positions[idx]) > 50) positions[idx] *= -1;
+                    if(Math.abs(positions[idx+1]) > 50) positions[idx+1] *= -1;
+                    if(Math.abs(positions[idx+2]) > 25) positions[idx+2] *= -1;
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+
+        // 3. ANIMATIONS
+        const initGSAP = () => {
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to('.text-reveal-line', { y: 0, duration: 1.2, stagger: 0.1, ease: "power4.out", delay: 0.2 });
+            gsap.to('#progress-line-1', { height: '100%', ease: "none", scrollTrigger: { trigger: '#progress-line-1', start: "top center", end: "bottom center", scrub: true }});
+            gsap.to('#progress-line-2', { height: '100%', ease: "none", scrollTrigger: { trigger: '#progress-line-2', start: "top center", end: "bottom center", scrub: true }});
+            gsap.from('.hero-visual', { scale: 0.5, opacity: 0, duration: 1.5, ease: "elastic.out(1, 0.75)", delay: 0.8 });
             
-            .scroll-animate {
-                opacity: 0;
-                transform: translateY(30px);
-                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            }
-            .scroll-animate.in-view {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            gsap.utils.toArray('.spotlight-card').forEach((card, i) => {
+                gsap.from(card, { y: 50, opacity: 0, duration: 0.8, scrollTrigger: { trigger: card, start: "top 90%" }});
+            });
+            gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+                gsap.from(item, { opacity: 0, x: -20, duration: 0.6, scrollTrigger: { trigger: item, start: "top 85%" }});
+            });
+        };
 
-            @keyframes slide-in-down {
-                0% { opacity: 0; transform: translateY(-30px); }
-                100% { opacity: 1; transform: translateY(0); }
-            }
-            @keyframes slide-in-up {
-                0% { opacity: 0; transform: translateY(30px); }
-                100% { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(style);
+        // 4. MOBILE MENU
+        const initMobileMenu = () => {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const closeBtn = document.getElementById('mobile-menu-close');
+            const links = document.querySelectorAll('.mobile-link');
+
+            const toggleMenu = (show) => {
+                menu.style.pointerEvents = show ? "auto" : "none";
+                menu.style.opacity = show ? "1" : "0";
+                document.body.style.overflow = show ? "hidden" : "auto";
+            };
+
+            btn.addEventListener('click', () => toggleMenu(true));
+            closeBtn.addEventListener('click', () => toggleMenu(false));
+            links.forEach(l => l.addEventListener('click', () => toggleMenu(false)));
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initSpotlight();
+            initThreeJS();
+            initGSAP();
+            initMobileMenu();
+        });
     </script>
 </body>
 </html>
-
-
