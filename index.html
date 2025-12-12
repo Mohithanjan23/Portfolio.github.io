@@ -5,17 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mohith H | Creative Developer</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- GSAP for High-End Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
-    <!-- Three.js for Neural Network Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-    <!-- Fonts: Space Grotesk (Tech) & Outfit (Futuristic Headers) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@200;400;700;900&display=swap" rel="stylesheet">
@@ -43,7 +39,6 @@
             font-family: 'Outfit', sans-serif;
         }
 
-        /* --- THREE.JS LAYER --- */
         #canvas-container {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100vh;
@@ -52,24 +47,21 @@
             pointer-events: none;
         }
 
-        /* --- STATIC NAV BAR --- */
         .static-nav {
             background: rgba(3, 3, 5, 0.8);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            /* Strict positioning */
             position: fixed;
-            top: 1.5rem; /* top-6 */
+            top: 1.5rem; 
             left: 50%;
             transform: translateX(-50%);
             z-index: 50;
             width: 95%;
-            max-width: 64rem; /* max-w-5xl */
+            max-width: 64rem; 
             border-radius: 9999px;
         }
 
-        /* --- SPOTLIGHT CARD SYSTEM --- */
         .spotlight-card {
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -136,7 +128,6 @@
             backdrop-filter: blur(10px);
         }
 
-        /* --- BUTTON BORDER EFFECT --- */
         .btn-border-glow {
             position: relative;
             background: rgba(255, 255, 255, 0.05);
@@ -175,12 +166,10 @@
             box-shadow: 0 0 0 rgba(51, 58, 70, 0); 
         }
 
-        /* --- TYPOGRAPHY EFFECTS --- */
         .text-reveal-mask { overflow: hidden; display: inline-block; vertical-align: bottom; }
         .text-reveal-line { display: inline-block; transform: translateY(100%); }
         .hero-title { line-height: 0.9; letter-spacing: -0.04em; }
 
-        /* Standout Gradient Text Class */
         .text-gradient-standout {
             background: linear-gradient(90deg, #60a5fa, #34d399);
             background-clip: text;
@@ -189,19 +178,18 @@
             font-weight: 700;
         }
 
-        /* --- SCROLL TIMELINE --- */
         .timeline-container { position: relative; }
         .timeline-track {
             position: absolute; left: 20px; top: 0; bottom: 0; width: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #3b82f6; /* Blue line as per UI */
+            opacity: 0.5;
         }
         .timeline-progress {
             position: absolute; left: 20px; top: 0; width: 2px; height: 0%;
-            background: linear-gradient(to bottom, #3b82f6, #10b981);
+            background: linear-gradient(to bottom, #60a5fa, #3b82f6);
             box-shadow: 0 0 15px #3b82f6;
         }
 
-        /* --- UTILITIES --- */
         .grain-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 9999; opacity: 0.03;
@@ -214,7 +202,6 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
 
-        /* --- ORBIT ANIMATION --- */
         .orbit-container {
             position: relative;
             width: 240px;
@@ -248,7 +235,6 @@
             z-index: 0;
         }
 
-        /* Responsive Orbit Keyframes to prevent off-screen overflow */
         @keyframes orbit {
             from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
             to   { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
@@ -273,7 +259,6 @@
     <div class="grain-overlay"></div>
     <div id="canvas-container"></div>
     
-    <!-- Static Header -->
     <nav class="static-nav px-6 py-4 flex justify-between items-center glass-card" id="navbar">
         <a href="#" class="flex items-center gap-3 group">
             <div class="relative w-8 h-8 flex items-center justify-center overflow-hidden rounded-full bg-white text-black font-bold text-sm tracking-tighter">
@@ -283,7 +268,6 @@
             <span class="font-bold text-lg tracking-wide hidden sm:block opacity-80 group-hover:opacity-100 transition-opacity">MOHITH</span>
         </a>
 
-        <!-- Desktop Menu -->
         <div class="hidden md:flex items-center gap-6 text-lg font-semibold tracking-widest uppercase text-gray-400 glass-card">
             <a href="#projects" class="hover:text-blue-300 transition-colors">Projects</a>
             <a href="#experience" class="hover:text-blue-300 transition-colors">Experience</a>
@@ -295,20 +279,17 @@
             </a>
         </div>
 
-        <!-- Contact & Mobile Toggle -->
         <div class="flex items-center gap-6 text-lg tracking-widest">
             <a href="#contact" class="hidden md:flex btn-contact-ref btn-border-glow font-semibold hover:text-black-400 transition-colors px-6 py-2 rounded-full items-center gap-3 font-semibold">
                 CONTACT 
             </a>
             
-            <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none p-2">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
     </nav>
 
-    <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 bg-[#030305]/95 backdrop-blur-xl z-50 flex flex-col items-center justify-center space-y-8 opacity-0 pointer-events-none transition-all duration-300">
          <button id="mobile-menu-close" class="absolute top-8 right-8 text-white/50 hover:text-white p-4">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -327,7 +308,6 @@
 
     <main class="relative z-10">
 
-        <!-- HERO SECTION -->
         <section class="min-h-screen flex items-center justify-center pt-32 px-4 md:px-6">
             <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-8 relative z-10 text-center lg:text-left">
@@ -348,7 +328,6 @@
                 </h3>
                 </div>
 
-                <!-- Hero Visual -->
                 <div class="lg:col-span-4 relative h-[300px] md:h-[400px] lg:h-[600px] flex items-center justify-center hero-visual">
                     <div class="orbit-container flex justify-center items-center relative">
                          <img src="https://media.licdn.com/dms/image/v2/D5603AQEdUMdXr8Mb0w/profile-displayphoto-crop_800_800/B56ZoKq7sJG4AI-/0/1761115621598?e=1767225600&v=beta&t=VNaU6Gptgx15qxIZSXjldLC922ftwBbRB2PJgiOLyRo" 
@@ -361,7 +340,6 @@
             </div>
         </section>
 
-        <!-- PROJECTS SECTION -->
         <section id="projects" class="py-24 md:py-32 px-6">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-20 gap-6 text-center md:text-left">
@@ -373,10 +351,8 @@
                     </div>
                 </div>
 
-                <!-- Responsive Grid: 1 col on mobile, 2 on tablet, 3 on desktop -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cards-container">
                     
-                    <!-- LEAKPEEK -->
                     <a href="https://github.com/pes1ug23ca017-ai/leakpeek" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #a855f7; --theme-color-glow: rgba(168, 85, 247, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -394,7 +370,6 @@
                         </div>
                     </a>
 
-                    <!-- CALPLATE -->
                     <a href="https://github.com/Mohithanjan23/calplate" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #22c55e; --theme-color-glow: rgba(34, 197, 94, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -412,7 +387,6 @@
                         </div>
                     </a>
 
-                    <!-- SMILE HARD -->
                     <a href="https://github.com/Mohithanjan23/Smile-Hard" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #ef4444; --theme-color-glow: rgba(239, 68, 68, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -430,7 +404,6 @@
                         </div>
                     </a>
 
-                    <!-- POKEDEX -->
                     <a href="https://github.com/Mohithanjan23/pokedex.github.io" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #3b82f6; --theme-color-glow: rgba(59, 130, 246, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -448,7 +421,6 @@
                         </div>
                     </a>
 
-                    <!-- CRACKBANK -->
                     <a href="https://github.com/pes1ug23ca017-ai/leakpeek" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #eab308; --theme-color-glow: rgba(234, 179, 8, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -466,7 +438,6 @@
                         </div>
                     </a>
 
-                    <!-- DESIGN FILES -->
                     <a href="https://drive.google.com/drive/folders/1XUXWj9XFbsAQZVvcNpJ2u5hmS9wk3u6e" target="_blank" class="spotlight-card glass group h-[450px]" style="--theme-color: #ec4899; --theme-color-glow: rgba(236, 72, 153, 0.4);">
                         <div class="spotlight-content flex flex-col p-6 h-full relative">
                             <div class="absolute inset-0 z-0">
@@ -487,136 +458,231 @@
             </div>
         </section>
 
-        <!-- SEPARATED EXPERIENCE SECTION -->
         <section id="experience" class="py-24 md:py-32 px-6 bg-[#050507]">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter">PROFESSIONAL <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">PATHWAY</span></h2>
+                <h2 class="text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter">PROFESSIONAL <span class="text-blue-500">PATHWAY</span></h2>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                     
-                    <!-- COLUMN 1: WORK EXPERIENCE -->
-                    <div class="timeline-container relative">
+                    <div>
                         <h4 class="text-2xl font-bold text-white mb-10 border-b border-gray-800 pb-4">WORK EXPERIENCE</h4>
-                        <div class="timeline-track"></div>
-                        <div class="timeline-progress" id="progress-line-1"></div>
-                        
-                        <div class="relative pl-16 mb-24 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-blue-500 z-10 shadow-[0_0_10px_#3b82f6]"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-2xl font-bold text-gradient-standout">Summer Intern (AI/ML)</h3>
-                                <span class="font-mono text-blue-400 text-sm mt-1">PES CRAIS • Jun 2025 - Jul 2025</span>
-                            </div>
-                            <p class="text-gray-400">Contributing to cutting-edge AI research and development.</p>
+                        <div class="timeline-container relative">
+                            <div class="timeline-track"></div>
+                            <div class="timeline-progress" id="progress-line-1"></div>
+                            
+                            <a href="https://craispes.wordpress.com/" target="_blank" class="block relative pl-16 mb-24 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-green-500 z-10 shadow-[0_0_10px_#22c55e] group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-2xl font-bold text-gradient-standout group-hover:text-white transition-colors">Summer Intern (AI/ML)</h3>
+                                    <span class="font-mono text-green-400 text-sm mt-1">PES CRAIS • Jun 2025 - Jul 2025</span>
+                                </div>
+                                <p class="text-gray-400 group-hover:text-gray-200 transition-colors">Contributing to cutting-edge AI research and development.</p>
+                            </a>
                         </div>
                     </div>
 
-                    <!-- COLUMN 2: LEADERSHIP & VOLUNTEERING -->
-                    <div class="timeline-container relative">
+                    <div>
                         <h4 class="text-2xl font-bold text-white mb-10 border-b border-gray-800 pb-4">LEADERSHIP & VOLUNTEERING</h4>
-                        <div class="timeline-track"></div>
-                        <div class="timeline-progress" id="progress-line-2"></div>
+                        <div class="timeline-container relative">
+                            <div class="timeline-track"></div>
+                            <div class="timeline-progress" id="progress-line-2"></div>
 
-                        <!-- Roles List (Same structure as previous) -->
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-purple-500 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Head of Management & Founder</h3>
-                                <span class="font-mono text-purple-400 text-sm mt-1">KALAANGANA • Oct 2024 - Dec 2025</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Founded organization, led cross-functional teams and executed large-scale events.</p>
-                        </div>
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-emerald-500 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Campus Ambassador</h3>
-                                <span class="font-mono text-emerald-400 text-sm mt-1">NIYO SOLUTIONS • Feb 2025 - Jul 2025</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Fostered campus community and brand awareness through strategic initiatives.</p>
-                        </div>
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Head of Marketing</h3>
-                                <span class="font-mono text-gray-400 text-sm mt-1">INIT.PESU.CA • Feb 2024 - Jun 2025</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Spearheaded marketing strategies resulting in increased engagement.</p>
-                        </div>
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Director</h3>
-                                <span class="font-mono text-gray-400 text-sm mt-1">PESU TALKIES • Jan 2024 - May 2025</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Directed club activities and media production workflows.</p>
-                        </div>
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-pink-500 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Head of Design</h3>
-                                <span class="font-mono text-pink-400 text-sm mt-1">IRA PESU • Nov 2024 - Jan 2025</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Led visual design direction and branding.</p>
-                        </div>
-                        <div class="relative pl-16 mb-20 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">PR & Marketing</h3>
-                                <span class="font-mono text-gray-400 text-sm mt-1">KANNADA KOOTA • Oct 2023 - Feb 2024</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Managed public relations and cultural event marketing.</p>
-                        </div>
-                        <div class="relative pl-16 timeline-item">
-                            <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-gray-400 z-10"></div>
-                            <div class="flex flex-col mb-2">
-                                <h3 class="text-xl font-bold text-gradient-standout">Campaigning</h3>
-                                <span class="font-mono text-gray-400 text-sm mt-1">SAMARPANA INDIA • Oct 2023 - Dec 2023</span>
-                            </div>
-                            <p class="text-gray-400 text-sm">Executed grassroots campaigning and outreach.</p>
+                            <a href="https://www.instagram.com/kalaangana.pesu.ca/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-purple-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Head of Management & Founder</h3>
+                                    <span class="font-mono text-purple-400 text-sm mt-1">KALAANGANA • Oct 2024 - Dec 2025</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Founded organization, led cross-functional teams and executed large-scale events.</p>
+                            </a>
+                            
+                            <a href="https://goniyo.com/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-orange-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Campus Ambassador</h3>
+                                    <span class="font-mono text-orange-400 text-sm mt-1">NIYO SOLUTIONS • Feb 2025 - Jul 2025</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Fostered campus community and brand awareness through strategic initiatives.</p>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/company/init-pes-ca/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-yellow-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Head of Marketing</h3>
+                                    <span class="font-mono text-yellow-400 text-sm mt-1">INIT.PESU.CA • Feb 2024 - Jun 2025</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Spearheaded marketing strategies resulting in increased engagement.</p>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/company/pesu-talkies/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-purple-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Director</h3>
+                                    <span class="font-mono text-purple-400 text-sm mt-1">PESU TALKIES • Jan 2024 - May 2025</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Directed club activities and media production workflows.</p>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/company/irapesu/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-green-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Head of Design</h3>
+                                    <span class="font-mono text-green-400 text-sm mt-1">IRA PESU • Nov 2024 - Jan 2025</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Led visual design direction and branding.</p>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/company/kannada-koota-pesu/" target="_blank" class="block relative pl-16 mb-20 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-orange-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">PR & Marketing</h3>
+                                    <span class="font-mono text-orange-400 text-sm mt-1">KANNADA KOOTA • Oct 2023 - Feb 2024</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Managed public relations and cultural event marketing.</p>
+                            </a>
+                            
+                            <a href="https://www.linkedin.com/company/samarpana-india/" target="_blank" class="block relative pl-16 timeline-item group">
+                                <div class="absolute left-[13px] top-2 w-4 h-4 rounded-full bg-black border-2 border-yellow-500 z-10 group-hover:scale-125 transition-transform duration-300"></div>
+                                <div class="flex flex-col mb-2">
+                                    <h3 class="text-xl font-bold text-gradient-standout group-hover:text-white transition-colors">Campaigning</h3>
+                                    <span class="font-mono text-yellow-400 text-sm mt-1">SAMARPANA INDIA • Oct 2023 - Dec 2023</span>
+                                </div>
+                                <p class="text-gray-400 text-sm group-hover:text-gray-200 transition-colors">Executed grassroots campaigning and outreach.</p>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SKILLS & CERTS (Preserved) -->
         <section id="skills" class="py-24 md:py-32 px-6">
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-center text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter"><span class="text-reveal-line text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-white">SKILLS</span></h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4" id="skills-container">
-                    <!-- Skills Items (Same as previous) -->
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-400">📈</span><span class="font-bold text-xs tracking-widest text-center">MARKETING</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-400">💻</span><span class="font-bold text-xs tracking-widest text-center">FRONT-END</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-purple-400">✨</span><span class="font-bold text-xs tracking-widest text-center">CREATIVE DIR.</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-400">🛡</span><span class="font-bold text-xs tracking-widest text-center">SECURITY</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-teal-400">💾</span><span class="font-bold text-xs tracking-widest text-center">SQL & DATA</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-pink-400">🎨</span><span class="font-bold text-xs tracking-widest text-center">UI/UX</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-cyan-400">📱</span><span class="font-bold text-xs tracking-widest text-center">FLUTTER</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-orange-400">🎉</span><span class="font-bold text-xs tracking-widest text-center">EVENT MGMT</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-500">⚛</span><span class="font-bold text-xs tracking-widest text-center">REACT</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-gray-400">🐙</span><span class="font-bold text-xs tracking-widest text-center">GITHUB</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-600">🟢</span><span class="font-bold text-xs tracking-widest text-center">NODE.JS</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-500">🔥</span><span class="font-bold text-xs tracking-widest text-center">FIREBASE</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-lime-500">🤖</span><span class="font-bold text-xs tracking-widest text-center">ANDROID</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-300">🐍</span><span class="font-bold text-xs tracking-widest text-center">PYTHON</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-indigo-300">🐘</span><span class="font-bold text-xs tracking-widest text-center">PHP</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-orange-500">☁</span><span class="font-bold text-xs tracking-widest text-center">AWS</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-green-700">🍃</span><span class="font-bold text-xs tracking-widest text-center">MONGODB</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-600">W</span><span class="font-bold text-xs tracking-widest text-center">WORDPRESS</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-700">C++</span><span class="font-bold text-xs tracking-widest text-center">C++</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-red-600">☕</span><span class="font-bold text-xs tracking-widest text-center">JAVA</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-red-500">5</span><span class="font-bold text-xs tracking-widest text-center">HTML5</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-blue-500">3</span><span class="font-bold text-xs tracking-widest text-center">CSS3</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-yellow-300">JS</span><span class="font-bold text-xs tracking-widest text-center">JAVASCRIPT</span></div></div>
-                    <div class="spotlight-card h-32 p-4"><div class="spotlight-content w-full h-full flex flex-col items-center justify-center"><span class="text-2xl mb-2 text-purple-300">🎬</span><span class="font-bold text-xs tracking-widest text-center">FILMMAKING</span></div></div>
+                    
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">DIGITAL MKTG</span>
+                        </div>
+                    </div>
+                    
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">CONTENT CR.</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">GRAPHIC DES.</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">UI/UX</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a5 5 0 0 0 0 10 5 5 0 0 0 0-10"></path><path d="M2 12h20"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">REACT</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">FLUTTER</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.88 14.32l-3.3-3.3 1.41-1.41 1.89 1.89 4.24-4.24 1.41 1.41-5.65 5.65z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">NODE.JS</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-blue-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8l4-5 1 4h3l-4 5z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">PYTHON</span>
+                        </div>
+                    </div>
+                    
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.08 13.52c-.3.3-.77.3-1.07 0l-2.5-2.5-2.5 2.5c-.3.3-.77.3-1.07 0s-.3-.77 0-1.07l2.5-2.5-2.5-2.5c-.3-.3-.3-.77 0-1.07s.77-.3 1.07 0l2.5 2.5 2.5-2.5c.3-.3.77-.3 1.07 0s.3.77 0 1.07l-2.5 2.5 2.5 2.5c.3.3.3.77 0 1.07z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">AWS</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10m16-10v10M4 11h16M4 14h16M10 4v16m4-16v16"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">SQL & DATA</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">SECURITY</span>
+                        </div>
+                    </div>
+
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">GITHUB</span>
+                        </div>
+                    </div>
+
+                    <!-- Three.js -->
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">THREE.JS</span>
+                        </div>
+                    </div>
+
+                    <!-- Figma -->
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">FIGMA</span>
+                        </div>
+                    </div>
+
+                    <!-- Video Editing -->
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">VIDEO EDITING</span>
+                        </div>
+                    </div>
+
+                    <!-- Java -->
+                    <div class="spotlight-card h-32 p-4">
+                        <div class="spotlight-content w-full h-full flex flex-col items-center justify-center">
+                            <svg class="w-12 h-12 mb-2 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8l4-5 1 4h3l-4 5z"></path></svg>
+                            <span class="font-bold text-xs tracking-widest text-center">JAVA</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="certifications" class="py-24 md:py-32 px-6 bg-[#030305]">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-4xl font-bold mb-16 text-center">CERTIFIED <span class="text-gray-600">EXPERTISE</span></h2>
+                <h2 class="text-4xl md:text-6xl font-bold mb-20 text-center tracking-tighter">CERTIFIED <span class="text-blue-500">ACHIEVED</span></h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="cert-container">
-                    <!-- Certs (Same as previous) -->
                     <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #3b82f6;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">UX Design Basics</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">LearnTube.ai</p></div></a>
                     <a href="https://freecodecamp.org/certification/fcc76af5763-8a43-4965-a068-7873f34dd4e2/responsive-web-design" target="_blank" class="spotlight-card h-40 group block" style="--theme-color: #22c55e;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-green-400 transition-colors">Responsive Web Design</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">freeCodeCamp</p></div></a>
                     <a href="#" class="spotlight-card h-40 group block" style="--theme-color: #f97316;"><div class="spotlight-content p-6 flex flex-col justify-between"><h4 class="text-lg font-bold text-white group-hover:text-orange-400 transition-colors">AWS Solutions Architect</h4><p class="text-[10px] font-bold uppercase tracking-widest text-gray-500">AWS via Forage</p></div></a>
@@ -633,7 +699,6 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
         <footer id="contact" class="py-24 md:py-32 px-6 border-t border-white/5 relative overflow-hidden">
             <div class="absolute inset-0 bg-blue-600/5 blur-[100px] pointer-events-none"></div>
             
@@ -658,7 +723,6 @@
     </main>
 
     <script>
-        // 1. SPOTLIGHT EFFECT
         const initSpotlight = () => {
             const containers = document.querySelectorAll('#cards-container, #skills-container, #cert-container');
             containers.forEach(container => {
@@ -675,7 +739,6 @@
             });
         };
 
-        // 2. THREE.JS NEURAL BACKGROUND
         const initThreeJS = () => {
             const container = document.getElementById('canvas-container');
             const scene = new THREE.Scene();
@@ -743,7 +806,6 @@
             });
         };
 
-        // 3. ANIMATIONS
         const initGSAP = () => {
             gsap.registerPlugin(ScrollTrigger);
             gsap.to('.text-reveal-line', { y: 0, duration: 1.2, stagger: 0.1, ease: "power4.out", delay: 0.2 });
@@ -759,7 +821,6 @@
             });
         };
 
-        // 4. MOBILE MENU
         const initMobileMenu = () => {
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
@@ -786,4 +847,3 @@
     </script>
 </body>
 </html>
-
